@@ -19,7 +19,7 @@
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Nomer 1 Pesanan</th>
+                        <th scope="col">Nomer Pesanan</th>
                         <th scope="col">Total Harga</th>
                         <th scope="col">Status</th>
                         <th scope="col">Tanggal Order</th>
