@@ -44,17 +44,17 @@
                             <td>{{ $order->created_at->format('d M Y') }}</td>
                             <td>
                                 @if ($order->status == 'pending')
-                                    <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}"
-                                        class="btn btn-primary">Bayar Sekarang</a>
-                                @elseif($order->status == 'completed')
-                                    <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-success">Download
-                                        Invoice</a>
-                                @elseif($order->status == 'processing' || $order->status == 'declined')
-                                    <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-secondary">Detail
-                                        Pembelian</a>
-                                @else
-                                    <p>Tunggu konfirmasi admin</p>
-                                @endif
+                                <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}"
+                                    class="btn btn-primary">Bayar Sekarang</a>
+                            @elseif($order->status == 'completed')
+                                <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-success">Download
+                                    Invoice</a>
+                            @elseif($order->status == 'declined')
+                                <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-secondary">Detail
+                                    Pembelian</a>
+                            @elseif($order->status == 'processing')
+                                <p>Tunggu konfirmasi admin</p>
+                            @endif
                             </td>
                         </tr>
                     @endforeach

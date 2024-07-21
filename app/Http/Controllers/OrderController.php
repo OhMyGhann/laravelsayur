@@ -52,7 +52,7 @@ class OrderController extends Controller
         $order->total_price = $cartItems->sum(function ($cartItem) {
             return $cartItem->item->harga * $cartItem->quantity;
         }) + 30000; // Include shipping cost
-        $order->status = 'proses';
+        $order->status = 'processing';
         // $order->payment_proof = $paymentProofPath; // Simpan path bukti pembayaran
         $order->save();
 
