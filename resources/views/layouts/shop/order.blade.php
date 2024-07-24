@@ -16,7 +16,7 @@
     <div class="container-fluid contact py-5">
         <div class="container py-5">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered table-responsive">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Nomer Pesanan</th>
@@ -64,4 +64,28 @@
         </div>
     </div>
     <!-- Contact End -->
+
+    <style>
+        @media only screen and (max-width: 600px) {
+            .table td, .table th {
+                padding: 0.75rem;
+                font-size: 0.75rem;
+            }
+            .btn {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .table td, .table th {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
 @endsection
