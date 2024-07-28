@@ -8,7 +8,6 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\KeranjangBelanja;
 use App\Models\SettingWeb;
-// use App\Models\Item;
 
 class OrderController extends Controller
 {
@@ -38,22 +37,13 @@ class OrderController extends Controller
             return redirect()->route('cart')->with('error', 'Keranjang belanja kosong.');
         }
 
-        // // Validasi pembayaran
-        // if (!$request->has('payment_proof') || !$request->file('payment_proof')->isValid()) {
-        //     return redirect()->route('cart')->with('error', 'Bukti pembayaran tidak valid.');
-        // }
-
-        // // Simpan bukti pembayaran
-        // $paymentProofPath = $request->file('payment_proof')->store('public/payment_proofs');
-
         $order = new Order();
         $order->user_id = $user->id;
         $order->order_number = 'SY-' . random_int(100000, 9999999);
         $order->total_price = $cartItems->sum(function ($cartItem) {
             return $cartItem->item->harga * $cartItem->quantity;
         }) + 30000; // Include shipping cost
-        $order->status = 'processing';
-        // $order->payment_proof = $paymentProofPath; // Simpan path bukti pembayaran
+        $order->status = 'pending';
         $order->save();
 
         foreach ($cartItems as $cartItem) {
@@ -70,5 +60,14 @@ class OrderController extends Controller
         KeranjangBelanja::where('user_id', $user->id)->delete();
 
         return redirect()->route('order.index')->with('success', 'Pesanan berhasil ditempatkan.');
+    }
+
+    public function updateStatus($orderId, $status)
+    {
+        $order = Order::findOrFail($orderId);
+        $order->status = $status;
+        $order->save();
+
+        return redirect()->route('order.index')->with('success', 'Status pesanan berhasil diperbarui.');
     }
 }

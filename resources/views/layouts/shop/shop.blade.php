@@ -69,7 +69,7 @@
                         <div class="col-lg-9">
                             <div class="row g-4 justify-content-center">
                                 @foreach ($items as $item)
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
+                                    <div class="col-6 col-md-6 col-lg-6 col-xl-4">
                                         <div class="rounded position-relative fruite-item">
                                             <div class="fruite-img">
                                                 <img src="{{ asset('storage/' . $item->image_path) }}"
@@ -80,11 +80,11 @@
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                 <h4>{{ $item->name }}</h4>
                                                 <p>{{ $item->description }}</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp
+                                                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                                    <p class="text-dark fs-6 fw-bold mb-0">Rp
                                                         {{ number_format($item->harga, 0, ',', '.') }} / kg</p>
                                                     <a href="#"
-                                                        class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary addToCartButton"
+                                                        class="btn border border-secondary rounded-pill px-2 py-1 mb-4 text-primary small-btn addToCartButton"
                                                         data-id="{{ $item->id }}" data-name="{{ $item->name }}"
                                                         data-price="{{ $item->harga }}">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Masukan ke
@@ -107,7 +107,6 @@
             </div>
         </div>
     </div>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -175,4 +174,29 @@
             };
         });
     </script>
+
+<style>
+    .small-btn {
+        font-size: 0.875rem; /* Adjust button text size */
+        padding: 0.5rem 1rem; /* Adjust button padding */
+    }
+    @media (max-width: 768px) {
+        .col-6 {
+            max-width: 50%;
+            flex: 0 0 50%;
+        }
+        .fruite-item .text-dark.fs-6.fw-bold.mb-0 {
+            font-size: 0.875rem; /* Adjust price text size */
+            margin-bottom: 0.5rem; /* Adjust bottom margin */
+        }
+        .fruite-item .btn {
+            padding: 0.25rem 0.5rem; /* Adjust button padding */
+            font-size: 0.75rem; /* Adjust button font size */
+        }
+        .fruite-item .d-flex {
+            flex-direction: column; /* Align price and button vertically */
+            align-items: flex-start; /* Align items to the start */
+        }
+    }
+</style>
 @endsection

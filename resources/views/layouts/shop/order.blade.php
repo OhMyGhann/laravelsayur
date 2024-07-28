@@ -12,25 +12,15 @@
     </div>
     <!-- Single Page Header End -->
 
-    <!-- Contact Start -->
-    <div class="container-fluid contact py-5">
+    <!-- Orders Start -->
+    <div class="container-fluid py-5">
         <div class="container py-5">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-responsive">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Nomer Pesanan</th>
-                            <th scope="col">Total Harga</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Tanggal Order</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orders as $order)
-                            <tr>
-                                <td>{{ $order->order_number }}</td>
-                                <td>Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+            <div class="row g-4">
+                @foreach ($orders as $order)
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Pesanan #{{ $order->order_number }}</h5>
                                 <td>
                                     <span
                                         class="badge
@@ -41,35 +31,38 @@
                                         {{ ucfirst($order->status) }}
                                     </span>
                                 </td>
-                                <td>{{ $order->created_at->format('d M Y') }}</td>
-                                <td>
-                                    @if ($order->status == 'pending')
-                                        <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}"
-                                            class="btn btn-primary">Bayar Sekarang</a>
-                                    @elseif($order->status == 'completed')
-                                        <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-success">Download
-                                            Invoice</a>
-                                    @elseif($order->status == 'declined')
-                                        <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-secondary">Detail
-                                            Pembelian</a>
-                                    @elseif($order->status == 'processing')
-                                        <p>Tunggu konfirmasi admin</p>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                            </div>
+                            <div class="card-body">
+                                <h6>Total Harga: Rp {{ number_format($order->total_price, 0, ',', '.') }}</h6>
+                                <p>Tanggal Order: {{ $order->created_at->format('d M Y') }}</p>
+                            </div>
+                            <div class="card-footer">
+                                @if ($order->status == 'pending')
+                                    <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}" class="btn btn-primary">Bayar Sekarang</a>
+                                @elseif($order->status == 'completed')
+                                    <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-success">Download Invoice</a>
+                                @elseif($order->status == 'declined')
+                                    <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-secondary">Detail Pembelian</a>
+                                @elseif($order->status == 'processing')
+                                    <p class="mb-0">Menunggu Pembayaran</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
-    <!-- Contact End -->
+    <!-- Orders End -->
 
     <style>
-        @media only screen and (max-width: 600px) {
-            .table td, .table th {
-                padding: 0.75rem;
-                font-size: 0.75rem;
+        @media (max-width: 600px) {
+            .card-title {
+                font-size: 1rem;
+            }
+            .card-body h6,
+            .card-body p {
+                font-size: 0.875rem;
             }
             .btn {
                 padding: 0.25rem 0.5rem;
@@ -77,10 +70,13 @@
             }
         }
 
-        @media only screen and (max-width: 768px) {
-            .table td, .table th {
-                padding: 0.5rem;
-                font-size: 0.875rem;
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 1.125rem;
+            }
+            .card-body h6,
+            .card-body p {
+                font-size: 1rem;
             }
             .btn {
                 padding: 0.5rem 1rem;

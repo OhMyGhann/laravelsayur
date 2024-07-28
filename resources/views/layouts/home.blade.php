@@ -14,7 +14,7 @@
                             @foreach ($sliders as $item)
                                 <div class="carousel-item rounded {{ $loop->first ? 'active' : '' }}">
                                     <img src="{{ asset('storage/' . $item->image_path) }}"
-                                        class="img-fluid w-100 h-100 bg-secondary rounded" alt="{{ $item->title }}">
+                                        class="img-fluid w-100 slider-img bg-secondary rounded" alt="{{ $item->title }}">
                                 </div>
                             @endforeach
                         </div>
@@ -160,6 +160,11 @@
             font-size: 0.875rem; /* Adjust button text size */
             padding: 0.5rem 1rem; /* Adjust button padding */
         }
+        .slider-img {
+            width: 600px;
+            height: 333px;
+            object-fit: cover;
+        }
         @media (max-width: 768px) {
             .fruite-item .text-dark.fs-5.fw-bold.mb-0 {
                 font-size: 0.875rem; /* Adjust price text size */
@@ -175,8 +180,4 @@
             }
         }
     </style>
-
-
 @endsection
-
- 
