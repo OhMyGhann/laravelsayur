@@ -50,7 +50,8 @@ class BeritaResource extends Resource
                 Forms\Components\TextInput::make('sub_title')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('note')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->required(),
                 FileUpload::make('image_path')
                     ->label('Gambar')
                     ->required(),

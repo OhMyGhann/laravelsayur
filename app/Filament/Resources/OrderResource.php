@@ -29,6 +29,9 @@ class OrderResource extends Resource
 
     protected static ?string $navigationGroup = 'Transaksi';
 
+
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -44,15 +47,16 @@ class OrderResource extends Resource
 
                             Forms\Components\Select::make('user_id')
                                 ->relationship('user', 'name')
+                                ->disabledOn('edit')
                                 ->searchable()
                                 ->required(),
 
                             Forms\Components\Select::make('status')
                                 ->options([
                                     'pending' => OrderStatusEnum::PENDING->value,
-                                    'processing' => OrderStatusEnum::PROCESSING->value,
-                                    'completed' => OrderStatusEnum::COMPLETED->value,
-                                    'declined' => OrderStatusEnum::DECLINED->value,
+                                    'Diproses' => OrderStatusEnum::PROCESSING->value,
+                                    'Sukses' => OrderStatusEnum::COMPLETED->value,
+                                    'Gagal' => OrderStatusEnum::DECLINED->value,
                                 ])
                                 ->native(false)
                                 ->required(),
@@ -69,6 +73,7 @@ class OrderResource extends Resource
                                         ->label('Product')
                                         ->options(Item::query()->where('stok', '>', 0)->pluck('name', 'id'))
                                         ->required()
+                                        ->disabledOn('edit')
                                         ->reactive()
                                         ->afterStateUpdated(fn ($state, Forms\Set $set) =>
                                         $set('unit_price', Item::find($state)?->harga ?? 0)),
@@ -215,6 +220,11 @@ class OrderResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return Order::where('status', 'pending')->count();
     }
 
     public static function getPages(): array
