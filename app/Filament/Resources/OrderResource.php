@@ -37,15 +37,17 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Wizard::make([
-                    Forms\Components\Wizard\Step::make('Order Details')
+                    Forms\Components\Wizard\Step::make('Detail order')
                         ->schema([
                             Forms\Components\TextInput::make('order_number')
+                                ->label('No Order')
                                 ->default('SY-' . random_int(100000, 9999999))
                                 ->disabled()
                                 ->dehydrated()
                                 ->required(),
 
                             Forms\Components\Select::make('user_id')
+                                ->label('Pengguna')
                                 ->relationship('user', 'name')
                                 ->disabledOn('edit')
                                 ->searchable()
@@ -62,11 +64,13 @@ class OrderResource extends Resource
                                 ->required(),
 
                             Forms\Components\MarkdownEditor::make('note')
+                                ->label('Catatan')
                                 ->columnSpanFull()
                         ])->columns(3),
-                    Forms\Components\Wizard\Step::make('Order Items')
+                    Forms\Components\Wizard\Step::make('Order Produk')
                         ->schema([
                             Forms\Components\Repeater::make('items')
+                                ->label('Produk')
                                 ->relationship('items')
                                 ->schema([
                                     Forms\Components\Select::make('item_id')
@@ -116,7 +120,7 @@ class OrderResource extends Resource
                                         ->disabled()
                                         ->dehydrated(),
                                     Forms\Components\TextInput::make('sub_total')
-                                        ->label('Total Item Price')
+                                        ->label('Harga per produk')
                                         ->readonly(),
                                 ])
                                 ->live()
@@ -131,7 +135,7 @@ class OrderResource extends Resource
                             Forms\Components\Section::make('Total')
                                 ->schema([
                                     Forms\Components\TextInput::make('shipping_price')
-                                        ->label('Shipping Costs')
+                                        ->label('Ongkos kirim')
                                         ->dehydrated()
                                         ->numeric()
                                         ->reactive()
@@ -140,7 +144,7 @@ class OrderResource extends Resource
                                             self::updateTotals($get, $set);
                                         }),
                                     Forms\Components\TextInput::make('total_price')
-                                        ->label('Order Total Price')
+                                        ->label('Total harga')
                                         ->numeric()
                                         ->live()
                                         ->readonly()
