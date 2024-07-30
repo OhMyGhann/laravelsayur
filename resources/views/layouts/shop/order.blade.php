@@ -17,7 +17,7 @@
         <div class="container py-5">
             <div class="row g-4">
                 @foreach ($orders as $order)
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-md-12">
                         <div class="card h-100">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">Pesanan #{{ $order->order_number }}</h5>
