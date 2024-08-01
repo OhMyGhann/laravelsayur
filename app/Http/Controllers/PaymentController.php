@@ -21,6 +21,7 @@ class PaymentController extends Controller
 
     public function processPayment(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'bukti_tf' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -30,8 +31,8 @@ class PaymentController extends Controller
         $bukti_tf = $request->file('bukti_tf')->store('bukti_tf', 'public');
 
         $order = Order::find($order_id);
-        if($order && $order->status == 'pending') {
-            $order->status = 'processing'; // Atau status lain yang sesuai
+        if($order && $order->status == 'processing') {
+            // $order->status = 'processing'; // Atau status lain yang sesuai
             $order->bukti_tf = $bukti_tf;
             $order->save();
 
