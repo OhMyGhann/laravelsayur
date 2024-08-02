@@ -191,6 +191,17 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\IconColumn::make('bukti_tf')
+                    ->label('Paid')
+                    ->boolean()
+                    ->icon(fn ($state, $record): string => match (true) {
+                        is_null($record->bukti_tf) || $record->bukti_tf === 'no' => 'heroicon-o-x-circle',
+                        !is_null($record->bukti_tf) && $record->bukti_tf !== 'no' => 'heroicon-o-check-circle',
+                    })
+                    ->color(fn ($state, $record): string => match (true) {
+                        is_null($record->bukti_tf) || $record->bukti_tf === 'no' => 'warning',
+                        !is_null($record->bukti_tf) && $record->bukti_tf !== 'no' => 'success',
+                    }),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Order Date')
