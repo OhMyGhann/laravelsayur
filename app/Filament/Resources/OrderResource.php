@@ -56,9 +56,9 @@ class OrderResource extends Resource
                             Forms\Components\Select::make('status')
                                 ->options([
                                     'pending' => OrderStatusEnum::PENDING->value,
-                                    'Diproses' => OrderStatusEnum::PROCESSING->value,
-                                    'Sukses' => OrderStatusEnum::COMPLETED->value,
-                                    'Gagal' => OrderStatusEnum::DECLINED->value,
+                                    'processing' => OrderStatusEnum::PROCESSING->value,
+                                    'completed' => OrderStatusEnum::COMPLETED->value,
+                                    'declined' => OrderStatusEnum::DECLINED->value,
                                 ])
                                 ->native(false)
                                 ->required(),

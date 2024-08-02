@@ -43,7 +43,7 @@
                                         <p class="mb-0 mt-4">{{ $item['name'] }}</p>
                                     </td>
                                     <td>
-                                        <p class="mb-0 mt-4">{{ number_format($item['price'], 0, ',', '.') }} Rp</p>
+                                        <p class="mb-0 mt-4">Rp. {{ number_format($item['price'], 0, ',', '.') }}</p>
                                     </td>
                                     <td>
                                         <div class="input-group quantity mt-4" style="width: 100px;">
@@ -63,7 +63,7 @@
                                     </td>
                                     <td>
                                         <p class="mb-0 mt-4">
-                                            {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} Rp</p>
+                                           Rp. {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</p>
                                     </td>
                                     <td>
                                         <button class="btn btn-md rounded-circle bg-light border mt-4 btn-remove">

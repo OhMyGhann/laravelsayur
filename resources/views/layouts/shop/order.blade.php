@@ -38,13 +38,13 @@
                             </div>
                             <div class="card-footer">
                                 @if ($order->status == 'pending')
-                                    <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}" class="btn btn-primary">Bayar Sekarang</a>
+                                <p class="mb-0">Tunggu Konfirmasi Admin</p>
                                 @elseif($order->status == 'completed')
                                     <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-success">Download Invoice</a>
                                 @elseif($order->status == 'declined')
                                     <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-secondary">Detail Pembelian</a>
                                 @elseif($order->status == 'processing')
-                                    <p class="mb-0">Menunggu Pembayaran</p>
+                                    <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}" class="btn btn-primary">Menunggu Pembayaran</a>
                                 @endif
                             </div>
                         </div>

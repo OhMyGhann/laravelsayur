@@ -102,8 +102,8 @@ class CartController extends Controller
         $subtotal = $cartItems->sum(function ($cartItem) {
             return $cartItem->item->harga * $cartItem->quantity;
         });
-        $shipping = 30000;
-        $total = $subtotal + $shipping;
+        
+        $total = $subtotal;
 
         return [
             'subtotal' => number_format($subtotal, 0, ',', '.'),

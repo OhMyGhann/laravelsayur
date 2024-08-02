@@ -42,7 +42,7 @@ class OrderController extends Controller
         $order->order_number = 'SY-' . random_int(100000, 9999999);
         $order->total_price = $cartItems->sum(function ($cartItem) {
             return $cartItem->item->harga * $cartItem->quantity;
-        }) + 30000; // Include shipping cost
+        }); // Include shipping cost
         $order->status = 'pending';
         $order->save();
 
