@@ -57,7 +57,7 @@
                                     @elseif($order->status == 'declined')
                                         <a href="{{ route('order.pdf.download', $order->id) }}" class="btn btn-secondary">Detail Pembelian</a>
                                     @elseif($order->status == 'processing')
-                                        @if ($order->bukti_tf)
+                                        @if ($order->bukti_tf && $order->bukti_tf !== 'no')
                                             <!-- Tombol untuk melihat bukti transfer -->
                                             <a href="{{ asset('storage/' . $order->bukti_tf) }}" class="btn btn-secondary">Check Bukti Transfer</a>
                                         @else
