@@ -62,7 +62,7 @@
                                             <a href="{{ asset('storage/' . $order->bukti_tf) }}" class="btn btn-secondary">Check Bukti Transfer</a>
                                         @else
                                             <!-- Tombol untuk mengunggah bukti pembayaran -->
-                                            <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}" class="btn btn-primary">Menunggu Pembayaran</a>
+                                            <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}" class="btn btn-primary">Upload Bukti Pembayaran</a>
                                         @endif
                                     @endif
                                 </div>

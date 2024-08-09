@@ -68,7 +68,7 @@ class OrderController extends Controller
     
         if ($request->hasFile('bukti_tf')) {
             $path = $request->file('bukti_tf')->store('bukti_tf', 'public');
-            $order->payment_proof = $path;
+            $order->bukti_tf = $path;
             $order->save();
     
             return redirect()->route('order.index')->with('success', 'Bukti pembayaran berhasil diunggah.');
