@@ -10,6 +10,7 @@ use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use App\Http\Middleware\VerifyIsAdmin;
+use App\Models\SettingWeb;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -29,6 +30,8 @@ class AdminPanelProvider extends PanelProvider
 
     public function panel(Panel $panel): Panel
     {
+        $faviconUrl = SettingWeb::find(1);
+
         return $panel
             ->default()
             ->id('admin')
@@ -41,6 +44,7 @@ class AdminPanelProvider extends PanelProvider
                     ->url('/')
                     ->icon('heroicon-o-home')
             ])
+            ->favicon(asset('storage/' . $faviconUrl->logo_3))
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Slate,

@@ -15,6 +15,7 @@ use Illuminate\Validation\Rule;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Log;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Actions\Action;
 use App\Filament\Resources\OrderResource\Pages;
@@ -62,6 +63,8 @@ class OrderResource extends Resource
                                 ])
                                 ->native(false)
                                 ->required(),
+                            FileUpload::make('bukti_tf')
+                                ->label('Bukti trnasfer'),
 
                             Forms\Components\MarkdownEditor::make('note')
                                 ->label('Catatan')

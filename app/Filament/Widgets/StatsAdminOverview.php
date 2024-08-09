@@ -13,17 +13,20 @@ class StatsAdminOverview extends BaseWidget
     {
         return [
             Stat::make('Users', User::query()->count())
-                ->description('All users')
+                ->label('Total pengguna')
+                ->description('Jumlah Pengguna aktif')
                 ->descriptionIcon('heroicon-m-users')
                 ->color('success'),
 
             Stat::make('Pending Orders', Order::query()->where('status', 'pending')->count())
-                ->description('All Pending Orders')
+                ->label('Order tertunda')
+                ->description('Jumlah order tertunda')
                 ->descriptionIcon('heroicon-m-shopping-cart')
                 ->color('warning'),
 
             Stat::make('Success Orders', Order::query()->where('status', 'success')->count())
-                ->description('All Success Orders')
+                ->label('Order sukses')
+                ->description('Jumlah order sukses')
                 ->descriptionIcon('heroicon-m-shopping-cart')
                 ->color('success'),
 
