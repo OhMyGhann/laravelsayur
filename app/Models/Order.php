@@ -35,4 +35,27 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    /**
+     * Accessor untuk menerjemahkan status ke bahasa Indonesia.
+     *
+     * @return string
+     */
+    public function getTranslatedStatusAttribute()
+    {
+        switch ($this->status) {
+            case 'pending':
+                return 'Menunggu';
+            case 'processing':
+                return 'Sedang Diproses';
+            case 'packed':
+                return 'Sedang Dikemas';
+            case 'completed':
+                return 'Order Selesai';
+            case 'declined':
+                return 'Ditolak';
+            default:
+                return $this->status;
+        }
+    }
 }

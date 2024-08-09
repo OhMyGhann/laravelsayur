@@ -1,4 +1,3 @@
-
 @extends('welcome')
 
 @section('content')
@@ -13,12 +12,11 @@
 </div>
 <!-- Single Page Header End -->
 
-
 <!-- Contact Start -->
 <div class="container-fluid contact py-5">
     <div class="container py-5">
         <div class="container mt-5">
-            <h1 class="text-center text-primary mb-4">Pilih Metode Pembayaran</h1>
+            <h1 class="text-center text-primary mb-4">Total Harga yang Harus Dibayar: Rp {{ number_format($order->total_price, 0, ',', '.') }}</h1>
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 @foreach($metodes as $metode)
                 <div class="col">
@@ -28,7 +26,7 @@
                             <h5 class="card-title">{{ $metode->bank_name }}</h5>
                             <p class="card-text">Bank Code: {{ $metode->bank_code }}</p>
                             <p class="card-text">Account Number: {{ $metode->no_rekening }}</p>
-                            <p class="card-text">Fee: Rp {{ number_format($metode->fee_bank, 0, ',', '.') }}</p>
+                            {{-- Fee dihapus --}}
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmPaymentModal" data-order-id="{{ $order_id }}" data-metode-id="{{ $metode->id }}" data-bank-name="{{ $metode->bank_name }}">Bayar dengan {{ $metode->bank_name }}</button>
                         </div>
                     </div>
@@ -36,6 +34,7 @@
                 @endforeach
             </div>
         </div>
+        
         
         <!-- Confirm Payment Modal -->
         <div class="modal fade" id="confirmPaymentModal" tabindex="-1" aria-labelledby="confirmPaymentModalLabel" aria-hidden="true">

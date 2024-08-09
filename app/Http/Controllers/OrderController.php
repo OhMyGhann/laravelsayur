@@ -62,6 +62,23 @@ class OrderController extends Controller
         return redirect()->route('order.index')->with('success', 'Pesanan berhasil ditempatkan.');
     }
 
+    public function uploadPaymentProof(Request $request, $orderId)
+    {
+        $order = Order::findOrFail($orderId);
+    
+        if ($request->hasFile('bukti_tf')) {
+            $path = $request->file('bukti_tf')->store('bukti_tf', 'public');
+            $order->payment_proof = $path;
+            $order->save();
+    
+            return redirect()->route('order.index')->with('success', 'Bukti pembayaran berhasil diunggah.');
+        }
+    
+        return redirect()->route('order.index')->with('error', 'Gagal mengunggah bukti pembayaran.');
+    }
+    
+
+
     public function updateStatus($orderId, $status)
     {
         $order = Order::findOrFail($orderId);

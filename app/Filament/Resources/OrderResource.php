@@ -30,9 +30,6 @@ class OrderResource extends Resource
 
     protected static ?string $navigationGroup = 'Transaksi';
 
-
-
-
     public static function form(Form $form): Form
     {
         return $form
@@ -56,15 +53,17 @@ class OrderResource extends Resource
 
                             Forms\Components\Select::make('status')
                                 ->options([
-                                    'pending' => OrderStatusEnum::PENDING->value,
-                                    'processing' => OrderStatusEnum::PROCESSING->value,
-                                    'completed' => OrderStatusEnum::COMPLETED->value,
-                                    'declined' => OrderStatusEnum::DECLINED->value,
+                                    'pending' => 'Menunggu',
+                                    'processing' => 'Sedang Diproses',
+                                    'packed' => 'Sedang di Kemas',
+                                    'completed' => 'Selesai',
+                                    'declined' => 'Ditolak',
+                                    
                                 ])
                                 ->native(false)
                                 ->required(),
                             FileUpload::make('bukti_tf')
-                                ->label('Bukti trnasfer'),
+                                ->label('Bukti Transfer'),
 
                             Forms\Components\MarkdownEditor::make('note')
                                 ->label('Catatan')
@@ -77,7 +76,7 @@ class OrderResource extends Resource
                                 ->relationship('items')
                                 ->schema([
                                     Forms\Components\Select::make('item_id')
-                                        ->label('Product')
+                                        ->label('Produk')
                                         ->options(Item::query()->where('stok', '>', 0)->pluck('name', 'id'))
                                         ->required()
                                         ->disabledOn('edit')
@@ -96,13 +95,13 @@ class OrderResource extends Resource
                                             if ($item) {
                                                 if ($item->stok == 0) {
                                                     Notification::make()
-                                                        ->title('This product is out of stock')
+                                                        ->title('Produk ini sudah habis')
                                                         ->danger()
                                                         ->send();
                                                 } elseif ($state > $item->stok) {
                                                     $set('quantity', $item->stok);
                                                     Notification::make()
-                                                        ->title('Quantity exceeds available stock')
+                                                        ->title('Jumlah melebihi stok yang tersedia')
                                                         ->danger()
                                                         ->send();
                                                 }
@@ -187,15 +186,27 @@ class OrderResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('Pengguna')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
                 Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->getStateUsing(function ($record) {
+                        return match ($record->status) {
+                            'pending' => 'Menunggu',
+                            'processing' => 'Sedang Diproses',
+                            'packed' => 'Sedang di Kemas',
+                            'completed' => 'Selesai',
+                            'declined' => 'Ditolak',
+                            default => $record->status,
+                        };
+                    }),
                 Tables\Columns\IconColumn::make('bukti_tf')
-                    ->label('Paid')
+                    ->label('Bukti Transfer')
                     ->boolean()
                     ->icon(fn ($state, $record): string => match (true) {
                         is_null($record->bukti_tf) || $record->bukti_tf === 'no' => 'heroicon-o-x-circle',
@@ -207,7 +218,7 @@ class OrderResource extends Resource
                     }),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Order Date')
+                    ->label('Tanggal Pesanan')
                     ->date(),
             ])
             ->filters([

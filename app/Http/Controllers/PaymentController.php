@@ -16,8 +16,11 @@ class PaymentController extends Controller
         $user = Auth::user();
         $metodes = Metode::all();
         $settings = SettingWeb::all(); // Mengambil semua data setting website
-        return view('layouts.shop.payment', compact('metodes', 'order_id', 'settings'));
+        $order = Order::find($order_id); // Mengambil detail order
+    
+        return view('layouts.shop.payment', compact('metodes', 'order_id', 'settings', 'order'));
     }
+    
 
     public function processPayment(Request $request)
     {

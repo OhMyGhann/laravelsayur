@@ -80,8 +80,12 @@
                                                     {{ number_format($item->harga, 0, ',', '.') }} / {{ $item->satuan }}
                                                 </p>
                                                 <a href="#"
-                                                    class="btn border border-secondary rounded-pill px-2 py-1 text-primary small-btn"><i
-                                                        class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                class="btn border border-secondary rounded-pill px-2 py-1 mb-4 text-primary small-btn addToCartButton"
+                                                data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                                data-price="{{ $item->harga }}">
+                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Masukan ke
+                                                keranjang
+                                            </a>
                                             </div>
                                         </div>
                                     </div>
@@ -180,4 +184,71 @@
             }
         }
     </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const cartCountElement = document.getElementById('cartCount');
+
+        document.querySelectorAll('.addToCartButton').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const item = {
+                    id: button.getAttribute('data-id'),
+                    name: button.getAttribute('data-name'),
+                    price: button.getAttribute('data-price'),
+                    quantity: 1 // Default quantity to 1
+                };
+                addToCart(item);
+            });
+        });
+
+        const addToCart = (item) => {
+            @if (auth()->check())
+                fetch('{{ route('cart.add') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify(item)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            cartCountElement.textContent = data.cartCount;
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: 'Item telah ditambahkan ke keranjang.',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: 'Gagal menambahkan item ke keranjang.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    });
+            @else
+                Swal.fire({
+                    title: 'Perhatian!',
+                    text: 'Silahkan login terlebih dahulu.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+            @endif
+        };
+    });
+</script>
 @endsection

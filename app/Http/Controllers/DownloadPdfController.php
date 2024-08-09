@@ -34,7 +34,8 @@ class DownloadPdfController extends Controller
             'address' => $user->address,
         ]);
 
-        $notes = $record->note;
+        // Pastikan $notes selalu string
+        $notes = $record->note ?? '';
 
         $items = [];
         foreach ($orderItems as $orderItem) {
@@ -45,7 +46,6 @@ class DownloadPdfController extends Controller
         }
 
         $invoice = Invoice::make()
-
             ->buyer($customer)
             ->seller($client)
             ->sequence(667)
@@ -53,11 +53,10 @@ class DownloadPdfController extends Controller
             ->shipping($record->shipping_price)
             ->currencySymbol('Rp.')
             ->currencyCode('IDR')
-            ->notes($notes)
+            ->notes($notes)  // Menggunakan $notes yang sudah dipastikan string
             ->filename($client->name . ' ' . $customer->name)
             ->logo(public_path('storage/' . $setting->logo_1))
             ->currencyFormat('{SYMBOL}{VALUE}');
-
 
         foreach ($items as $item) {
             $invoice->addItem($item);
