@@ -39,7 +39,7 @@
                                             $order->status == 'pending' ? 'Menunggu' : (
                                             $order->status == 'processing' ? 'Sedang Diproses' : (
                                             $order->status == 'packed' ? 'Sedang Dikemas' : (
-                                            $order->status == 'completed' ? 'Selesai' : (
+                                            $order->status == 'completed' ? 'Order Selesai' : (
                                             $order->status == 'declined' ? 'Ditolak' : ucfirst($order->status)
                                         ))))
                                         }}
