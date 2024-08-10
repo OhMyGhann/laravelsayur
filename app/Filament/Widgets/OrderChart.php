@@ -27,7 +27,7 @@ class OrderChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Orders per day',
+                    'label' => 'Order per hari',
                     'data' => $data,
                 ],
             ],
