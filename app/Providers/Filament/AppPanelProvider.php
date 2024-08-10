@@ -5,9 +5,10 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
+use App\Models\SettingWeb;
 use Filament\PanelProvider;
-use Filament\Navigation\MenuItem;
 
+use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use App\Filament\App\Pages\Auth\Register;
 use Filament\Http\Middleware\Authenticate;
@@ -28,6 +29,8 @@ class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $faviconUrl = SettingWeb::first();
+
         return $panel
             ->id('app')
             ->path('app')
@@ -39,6 +42,7 @@ class AppPanelProvider extends PanelProvider
                     ->url('/')
                     ->icon('heroicon-o-home')
             ])
+            ->favicon(asset('storage/' . $faviconUrl->logo_3))
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Slate,

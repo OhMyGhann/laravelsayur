@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
 
     public function panel(Panel $panel): Panel
     {
-        $faviconUrl = SettingWeb::find(1);
+        $faviconUrl = SettingWeb::first();
 
         return $panel
             ->default()

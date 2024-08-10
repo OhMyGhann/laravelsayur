@@ -16,7 +16,7 @@ class StatsAppOverview extends BaseWidget
 
         return [
 
-            Stat::make('Pending Orders', Order::query()
+            Stat::make('Order tertunda', Order::query()
                 ->where('status', 'pending')
                 ->where('user_id', $user->id) // Filter by logged-in user's ID
                 ->count())
@@ -24,7 +24,7 @@ class StatsAppOverview extends BaseWidget
                 ->descriptionIcon('heroicon-m-shopping-cart')
                 ->color('info'),
 
-            Stat::make('Success Orders', Order::query()
+            Stat::make('Order Sukses', Order::query()
                 ->where('status', 'success')
                 ->where('user_id', $user->id) // Filter by logged-in user's ID
                 ->count())
@@ -32,7 +32,7 @@ class StatsAppOverview extends BaseWidget
                 ->descriptionIcon('heroicon-m-shopping-cart')
                 ->color('success'),
 
-            Stat::make('Success Orders', Order::query()
+            Stat::make('Order dibatalkan', Order::query()
                 ->where('status', 'declined')
                 ->where('user_id', $user->id) // Filter by logged-in user's ID
                 ->count())
