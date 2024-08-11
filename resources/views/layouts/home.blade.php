@@ -110,8 +110,8 @@
                             <h1 class="display-3 text-white">{{ $banner->title }}</h1>
                             <p class="fw-normal display-3 text-dark mb-4">{{ $banner->sub_title }}</p>
                             <p class="mb-4 text-dark">{{ $banner->note }}</p>
-                            <a href="#"
-                                class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BELI</a>
+                            {{-- <a href="#"
+                                class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BELI</a> --}}
                         </div>
                     </div>
                     <div class="col-lg-6">
