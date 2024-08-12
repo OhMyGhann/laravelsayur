@@ -16,12 +16,12 @@ class Order extends Model
         'user_id',
         'order_number',
         'total_price',
+        'no_hp',
+        'alamat',
         'status',
         'shipping_price',
         'note',
-        'buktitf',
-        'alamat',
-        'no_hp'
+        'buktitf'
     ];
 
     public function user()

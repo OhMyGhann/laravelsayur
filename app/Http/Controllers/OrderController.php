@@ -29,23 +29,30 @@ class OrderController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Silakan login untuk membuat pesanan.');
         }
-
+    
         $user = Auth::user();
         $cartItems = KeranjangBelanja::where('user_id', $user->id)->with('item')->get();
-
+    
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Keranjang belanja kosong.');
         }
-
+    
+        $request->validate([
+            'no_hp' => 'required|string|max:15',
+            'alamat' => 'required|string|max:255',
+        ]);
+    
         $order = new Order();
         $order->user_id = $user->id;
         $order->order_number = 'SY-' . random_int(100000, 9999999);
         $order->total_price = $cartItems->sum(function ($cartItem) {
             return $cartItem->item->harga * $cartItem->quantity;
-        }); // Include shipping cost
+        });
         $order->status = 'pending';
+        $order->no_hp = $request->no_hp;
+        $order->alamat = $request->alamat;
         $order->save();
-
+    
         foreach ($cartItems as $cartItem) {
             $orderItem = new OrderItem();
             $orderItem->order_id = $order->id;
@@ -55,12 +62,13 @@ class OrderController extends Controller
             $orderItem->sub_total = $cartItem->item->harga * $cartItem->quantity;
             $orderItem->save();
         }
-
+    
         // Clear the cart
         KeranjangBelanja::where('user_id', $user->id)->delete();
-
+    
         return redirect()->route('order.index')->with('success', 'Pesanan berhasil ditempatkan.');
     }
+    
 
     public function uploadPaymentProof(Request $request, $orderId)
     {

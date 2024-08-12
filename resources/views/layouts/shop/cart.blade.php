@@ -7,12 +7,10 @@
         <ol class="breadcrumb justify-content-center mb-0">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="#">Pages</a></li>
-            <li class="breadcrumb-item active text-white">Shop Detail</li>
+            <li class="breadcrumb-item active text-white">Cart</li>
         </ol>
     </div>
     <!-- Single Page Header End -->
-
-
 
     <div class="container-fluid py-5">
         <div class="container py-5">
@@ -75,11 +73,17 @@
                         </tbody>
                     </table>
                 </div>
-                {{-- <div class="mt-5">
-                <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
-                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply
-                    Coupon</button>
-            </div> --}}
+
+                <!-- Tambahkan input baru untuk nomor HP dan alamat -->
+                <div class="mb-4">
+                    <label for="no_hp" class="form-label">Nomor HP</label>
+                    <input type="text" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkan nomor HP Anda" required>
+                </div>
+                <div class="mb-4">
+                    <label for="alamat" class="form-label">Alamat Pengiriman</label>
+                    <textarea class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap Anda" rows="3" required></textarea>
+                </div>
+
                 <div class="row g-4 justify-content-end">
                     <div class="col-8"></div>
                     <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
@@ -124,6 +128,9 @@
                             <form id="order-form" action="{{ route('order.store') }}" method="POST"
                                 style="display: none;">
                                 @csrf
+                                <!-- Tambahkan input hidden untuk nomor HP dan alamat -->
+                                <input type="hidden" name="no_hp" id="form_no_hp">
+                                <input type="hidden" name="alamat" id="form_alamat">
                             </form>
                         </div>
                     </div>
@@ -133,7 +140,6 @@
             @endif
         </div>
     </div>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -187,6 +193,17 @@
             });
 
             document.getElementById('place-order-button').addEventListener('click', function() {
+                var no_hp = document.getElementById('no_hp').value;
+                var alamat = document.getElementById('alamat').value;
+
+                if (!no_hp || !alamat) {
+                    Swal.fire('Error', 'Nomor HP dan Alamat harus diisi.', 'error');
+                    return;
+                }
+
+                document.getElementById('form_no_hp').value = no_hp;
+                document.getElementById('form_alamat').value = alamat;
+
                 Swal.fire({
                     title: 'Apakah Anda yakin ingin memesan?',
                     icon: 'warning',
