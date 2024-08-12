@@ -47,6 +47,8 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact.index
 Route::get('/order', [OrderController::class, 'index'])->name('order.index');
 Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 
+
+
 // Payment routes
 Route::get('/payment/{order_id}', [PaymentController::class, 'showPaymentPage'])->name('showPaymentPage');
 Route::post('/processPayment', [PaymentController::class, 'processPayment'])->name('processPayment');
