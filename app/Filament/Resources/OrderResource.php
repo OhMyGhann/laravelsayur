@@ -58,16 +58,21 @@ class OrderResource extends Resource
                                     'packed' => 'Sedang di Kemas',
                                     'completed' => 'Selesai',
                                     'declined' => 'Ditolak',
-                                    
+
                                 ])
                                 ->native(false)
                                 ->required(),
                             FileUpload::make('bukti_tf')
                                 ->label('Bukti Transfer'),
-
-                            Forms\Components\MarkdownEditor::make('note')
+                            Forms\Components\TextInput::make('no_hp')
+                                ->label('No hp')
+                                ->required(),
+                            Forms\Components\TextInput::make('note')
                                 ->label('Catatan')
-                                ->columnSpanFull()
+                                ->required(),
+                            Forms\Components\MarkdownEditor::make('alamat')
+                                ->label('Alamat')
+                                ->columnSpanFull(),
                         ])->columns(3),
                     Forms\Components\Wizard\Step::make('Order Produk')
                         ->schema([
@@ -81,7 +86,7 @@ class OrderResource extends Resource
                                         ->required()
                                         ->disabledOn('edit')
                                         ->reactive()
-                                        ->afterStateUpdated(fn ($state, Forms\Set $set) =>
+                                        ->afterStateUpdated(fn($state, Forms\Set $set) =>
                                         $set('unit_price', Item::find($state)?->harga ?? 0)),
 
                                     Forms\Components\TextInput::make('quantity')
@@ -130,7 +135,7 @@ class OrderResource extends Resource
                                     self::updateTotals($get, $set);
                                 })
                                 ->deleteAction(
-                                    fn (Action $action) => $action->after(fn (Get $get, Set $set) => self::updateTotals($get, $set)),
+                                    fn(Action $action) => $action->after(fn(Get $get, Set $set) => self::updateTotals($get, $set)),
                                 )
                                 ->reorderable(false)
                                 ->columns(4),
@@ -208,11 +213,11 @@ class OrderResource extends Resource
                 Tables\Columns\IconColumn::make('bukti_tf')
                     ->label('Bukti Transfer')
                     ->boolean()
-                    ->icon(fn ($state, $record): string => match (true) {
+                    ->icon(fn($state, $record): string => match (true) {
                         is_null($record->bukti_tf) || $record->bukti_tf === 'no' => 'heroicon-o-x-circle',
                         !is_null($record->bukti_tf) && $record->bukti_tf !== 'no' => 'heroicon-o-check-circle',
                     })
-                    ->color(fn ($state, $record): string => match (true) {
+                    ->color(fn($state, $record): string => match (true) {
                         is_null($record->bukti_tf) || $record->bukti_tf === 'no' => 'warning',
                         !is_null($record->bukti_tf) && $record->bukti_tf !== 'no' => 'success',
                     }),
@@ -232,9 +237,9 @@ class OrderResource extends Resource
                     Tables\Actions\Action::make('Invoice')
                         ->icon('heroicon-o-document-arrow-down')
                         ->color('info')
-                        ->url(fn (Order $record) => route('order.pdf.download', $record))
+                        ->url(fn(Order $record) => route('order.pdf.download', $record))
                         ->openUrlInNewTab()
-                        ->visible(fn (Order $record) => $record->status === 'completed')
+                        ->visible(fn(Order $record) => $record->status === 'completed')
                 ])
             ])
             ->bulkActions([

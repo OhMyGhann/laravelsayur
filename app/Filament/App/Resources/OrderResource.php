@@ -59,9 +59,15 @@ class OrderResource extends Resource
                                 ->native(false)
                                 ->required(),
 
-                            Forms\Components\MarkdownEditor::make('note')
-                                ->columnSpanFull()
-                                ->disabledOn('edit')
+                            Forms\Components\TextInput::make('no_hp')
+                                ->label('No hp')
+                                ->required(),
+                            Forms\Components\TextInput::make('note')
+                                ->label('Catatan')
+                                ->required(),
+                            Forms\Components\MarkdownEditor::make('alamat')
+                                ->label('Alamat')
+                                ->columnSpanFull(),
                         ])->columns(2),
                     Forms\Components\Wizard\Step::make('Order Items')
                         ->schema([
@@ -73,7 +79,7 @@ class OrderResource extends Resource
                                         ->options(Item::query()->pluck('name', 'id'))
                                         ->required()
                                         ->reactive()
-                                        ->afterStateUpdated(fn ($state, Forms\Set $set) =>
+                                        ->afterStateUpdated(fn($state, Forms\Set $set) =>
                                         $set('unit_price', Item::find($state)?->harga ?? 0)),
 
                                     Forms\Components\TextInput::make('quantity')
@@ -117,11 +123,11 @@ class OrderResource extends Resource
                 Tables\Columns\IconColumn::make('bukti_tf')
                     ->label('Paid')
                     ->boolean()
-                    ->icon(fn ($state, $record): string => match (true) {
+                    ->icon(fn($state, $record): string => match (true) {
                         is_null($record->bukti_tf) || $record->bukti_tf === 'no' => 'heroicon-o-x-circle',
                         !is_null($record->bukti_tf) && $record->bukti_tf !== 'no' => 'heroicon-o-check-circle',
                     })
-                    ->color(fn ($state, $record): string => match (true) {
+                    ->color(fn($state, $record): string => match (true) {
                         is_null($record->bukti_tf) || $record->bukti_tf === 'no' => 'warning',
                         !is_null($record->bukti_tf) && $record->bukti_tf !== 'no' => 'success',
                     }),
@@ -139,9 +145,9 @@ class OrderResource extends Resource
                 Tables\Actions\Action::make('Invoice')
                     ->icon('heroicon-o-document-arrow-down')
                     ->color('info')
-                    ->url(fn (Order $record) => route('order.pdf.download', $record))
+                    ->url(fn(Order $record) => route('order.pdf.download', $record))
                     ->openUrlInNewTab()
-                    ->visible(fn (Order $record) => $record->status === 'completed'),
+                    ->visible(fn(Order $record) => $record->status === 'completed'),
             ]);
     }
 
