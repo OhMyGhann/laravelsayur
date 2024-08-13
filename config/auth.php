@@ -39,6 +39,7 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'login_response' => App\Http\Responses\LoginResponse::class,
         ],
     ],
 

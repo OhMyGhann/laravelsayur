@@ -225,7 +225,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Tanggal Pesanan')
                     ->date(),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

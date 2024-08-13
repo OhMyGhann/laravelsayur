@@ -20,10 +20,18 @@ class UserRoleMiddleware
             return $next($request);
         }
 
-        if (Auth::check() && !Auth::user()->is_admin) {
+        if ($request->is('app') || $request->is('app/*')) {
             return $next($request);
         }
 
-        return redirect('/admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin) {
+                return redirect('/admin');
+            } else {
+                return redirect('/');
+            }
+        }
+
+        return $next($request);
     }
 }

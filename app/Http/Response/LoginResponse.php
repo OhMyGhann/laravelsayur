@@ -2,27 +2,20 @@
 
 namespace App\Http\Responses;
 
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Livewire\Features\SupportRedirects\Redirector;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse as LoginResponseContract;
 
 class LoginResponse implements LoginResponseContract
 {
-    /**
-     * Create an HTTP response that represents the object.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function toResponse($request)
+    public function toResponse($request): RedirectResponse|Redirector
     {
-        $user = Auth::user();
-        $url = '';
+        $panelId = Filament::getCurrentPanel()->getId();
 
-        if ($user && $user->role === 'user') {
-            $url = '/';
+        if ($panelId === 'app') {
+            return redirect('/');
         }
-
-
-        return redirect()->intended($url);
     }
 }
