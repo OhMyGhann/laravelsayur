@@ -7,6 +7,7 @@ use App\Http\Responses\LoginResponse;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse as LoginResponseContract;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -25,6 +26,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->app->bind(LoginResponseContract::class, LoginResponse::class);
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
@@ -35,8 +38,6 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
-
-        // $this->app->bind(LoginResponse::class, \App\Http\Responses\LoginResponse::class);
     }
 
     /**

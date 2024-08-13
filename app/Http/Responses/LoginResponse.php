@@ -3,19 +3,20 @@
 namespace App\Http\Responses;
 
 use Filament\Facades\Filament;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use Livewire\Features\SupportRedirects\Redirector;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse as LoginResponseContract;
 
 class LoginResponse implements LoginResponseContract
 {
-    public function toResponse($request): RedirectResponse|Redirector
+    public function toResponse($request)
     {
-        $panelId = Filament::getCurrentPanel()->getId();
 
-        if ($panelId === 'app') {
-            return redirect('/');
+        if (Auth::check() && Auth::user()->is_admin) {
+            return redirect()->intended('/admin');
         }
+
+        return redirect()->intended('/');
     }
 }
