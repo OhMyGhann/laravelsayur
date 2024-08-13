@@ -16,6 +16,7 @@ class VerifyIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         if ($request->is('admin/login') || $request->is('admin/register')) {
             return $next($request);
         }
