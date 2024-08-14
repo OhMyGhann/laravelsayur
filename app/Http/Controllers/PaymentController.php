@@ -39,9 +39,9 @@ class PaymentController extends Controller
             $order->bukti_tf = $bukti_tf;
             $order->save();
 
-            return redirect()->route('home')->with('success', 'Payment is being processed.');
+            return redirect()->route('order.index')->with('success', 'Payment is being processed.');
         }
 
-        return redirect()->route('home')->with('error', 'Invalid order or order is not pending.');
+        return redirect()->route('order.index')->with('error', 'Invalid order or order is not pending.');
     }
 }

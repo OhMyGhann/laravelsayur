@@ -91,22 +91,22 @@
                             <div class="p-4">
                                 <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
                                 <div class="d-flex justify-content-between mb-4">
-                                    <h5 class="mb-0 me-4">Subtotal:</h5>
+                                    <h5 class="mb-0 me-4">Total belanja:</h5>
                                     <p class="mb-0" id="subtotal">
                                         Rp.
                                         {{ number_format(array_sum(array_map(function ($item) {return $item['price'] * $item['quantity'];}, $cart->toArray())),0,',','.') }}
                                     </p>
                                 </div>
-                                <div class="d-flex justify-content-between">
+                                {{-- <div class="d-flex justify-content-between">
                                     <h5 class="mb-0 me-4">Shipping</h5>
                                     <div class="">
                                         <p class="mb-0">Mohon tunggu konfirmasi Admin</p>
                                     </div>
-                                </div>
+                                </div> --}}
 
                             </div>
                             <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-                                <h5 class="mb-0 ps-4 me-4">Total</h5>
+                                <h5 class="mb-0 ps-4 me-4">Total Biaya:</h5>
                                 <p class="mb-0 pe-4" id="total">
                                     Rp.
                                     {{ number_format(

@@ -46,6 +46,11 @@
                                     </span>
                                 </div>
                                 <div class="card-body">
+                                    @if (is_null($order->shipping_price))
+                                        <h6>Ongkos Kirim: <span class="text-warning">Tunggu Konfirmasi Admin</span></h6>
+                                    @else
+                                        <h6>Ongkos Kirim: Rp {{ number_format($order->shipping_price, 0, ',', '.') }}</h6>
+                                    @endif
                                     <h6>Total Harga: Rp {{ number_format($order->total_price, 0, ',', '.') }}</h6>
                                     <p>Tanggal Order: {{ $order->created_at->format('d M Y') }}</p>
                                 </div>
@@ -59,7 +64,11 @@
                                     @elseif($order->status == 'processing')
                                         @if ($order->bukti_tf && $order->bukti_tf !== 'no')
                                             <!-- Tombol untuk melihat bukti transfer -->
-                                            <a href="{{ asset('storage/' . $order->bukti_tf) }}" class="btn btn-secondary">Check Bukti Transfer</a>
+                                            <a href="javascript:void(0);" 
+                                               class="btn btn-secondary" 
+                                               data-bs-toggle="modal" 
+                                               data-bs-target="#buktiTfModal" 
+                                               data-img-url="{{ asset('storage/' . $order->bukti_tf) }}">Check Bukti Transfer</a>
                                         @else
                                             <!-- Tombol untuk mengunggah bukti pembayaran -->
                                             <a href="{{ route('showPaymentPage', ['order_id' => $order->id]) }}" class="btn btn-primary">Upload Bukti Pembayaran</a>
@@ -74,6 +83,31 @@
         </div>
     </div>
     <!-- Orders End -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="buktiTfModal" tabindex="-1" aria-labelledby="buktiTfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buktiTfModalLabel">Bukti Transfer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="buktiTfImage" src="" class="img-fluid" alt="Bukti Transfer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var buktiTfModal = document.getElementById('buktiTfModal');
+        buktiTfModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var imgUrl = button.getAttribute('data-img-url');
+            var modalImage = buktiTfModal.querySelector('#buktiTfImage');
+            modalImage.src = imgUrl;
+        });
+    </script>
 
     <style>
         @media (max-width: 600px) {
