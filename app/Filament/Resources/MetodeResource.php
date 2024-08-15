@@ -73,6 +73,7 @@ class MetodeResource extends Resource
                     ->label('Nama bank'),
                 Tables\Columns\TextColumn::make('bank_code')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('no_rekening'),
                 Tables\Columns\TextColumn::make('fee_bank')
                     ->money('IDR')
                     ->sortable(),
