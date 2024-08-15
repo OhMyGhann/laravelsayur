@@ -49,12 +49,11 @@ class MetodeResource extends Resource
                         Forms\Components\TextInput::make('no_rekening')
                             ->label('No rekening')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('fee_bank')
-                            ->label('Biaya admin')
-                            ->required()
-                            ->maxLength(255),
+                        // Forms\Components\TextInput::make('fee_bank')
+                        //     ->label('Biaya admin')
+                        //     ->required()
+                        //     ->maxLength(255),
                         Forms\Components\TextInput::make('note')
-                            ->columnSpan(2)
                             ->maxLength(255),
                     ])->columns(2),
                 Forms\Components\Section::make('Gambar')
